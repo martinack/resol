@@ -1,0 +1,118 @@
+<div>
+	<h3>Schritt 1: Erkennen der VBUS-Lan Schnittstellen</h3>
+	<p>
+		Dieser Schritt l&auml;uft automatisch ab.
+		<br />
+		Klicken Sie dazu nur auf "Jetzt Schnittstellen erkennen"
+	</p>
+	<div class="controls">
+		<div class="button" data-target="Resol/ajax?action=searchNetworkDeviceAddresses">
+			Jetzt Schnittstellen erkennen
+		</div>
+	</div>
+	<div class="actionContainer" style="display:none;">
+		<div class="success text">
+			Sehr gut, es wurde mindestens ein vbus gefunden.
+			<br />
+			Sie k&ouml;nnen die Einstellungen nun anpassen, z.B. wenn Sie anstelle der IP-Adresse einen DNS-Namen verwenden m&ouml;chten, und anschlie&szlig;end auf &quot;Speichern&quot; klicken.
+		</div>
+		<div class="failure text">
+			Leider wurde kein VBUS gefunden!
+			<br />
+			Dies kann verschiedene Ursachen haben:
+			<ul>
+				<li>
+					&Uuml;berpr&uuml;fen Sie die Netzwerk Einstellungen
+					<br />
+					Befindet sich das Ger&auml;t auf welchem FHEM installiert ist im selben Netz wie der VBUS?
+				</li>
+				<li>
+					&Uuml;berpr&uuml;fen Sie die VBUS Verkabelung
+					<br />
+					Ein h&auml;ufig auftretendes Problem ist, das vertauschen von Kabelenden.
+				</li>
+				<li>
+					Ist ihre VBUS-Firmware komptibel?
+					<br />
+					Aktuell werden nur die Versionen {@TODO: add supported versions} unterst&uuml;tzt
+				</li>
+			</ul>
+			<br />
+			Eine weitere Ursache k&ouml;nnte ein unbekannter Fehler der automatischen Ger&auml;te Erkennung sein.
+			<br />
+			Deshalb haben Sie auch die M&ouml;glichkeit diesen Schritt manuell durchzuf&uuml;hren.
+			<br />
+			Tragen Sie daf&uuml;r in den unten stehenden Feldern die entsprechenden Daten ein, und klicken Sie anschlie&szlig;end auf &quot;Speichern&quot;.
+			<br />
+			Wenn der n&auml;chste Schritt problemlos verl&auml;uft, lag ein Fehler in der automatischen Ger&auml;te Erkennung vor.
+		</div>
+		<div class="text">
+			Sie k&ouml;nnen die hier vorgenommenen Einstellungen sp&auml;ter jeder Zeit wieder &auml;ndern.
+			<br />
+			<br />
+			Wenn Sie ihre Einstellungen vorgenommen und gespeichert haben, klicken Sie bitte auf &quot;Weiter&quot;.
+		</div>
+		<div class="networkDeviceContainer">
+			<div class="template">
+				<fieldset>
+					<legend></legend>
+					<form action="Resol/ajax" method="get">
+						<input type="hidden" name="action" id="action" value="createNetworkDevice" />
+						<table>
+							<tbody>
+								<tr>
+									<td>
+										<label for="name">Name:</label>
+									</td>
+									<td>
+										<input class="legendChanger" id="name" name="name" type="text" value="" />
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<label for="hostname">Adresse:</label>
+									</td>
+									<td>
+										<input id="hostname" name="hostname" type="text" value="" />
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<label for="port">Kontroll-Port:</label>
+									</td>
+									<td>
+										<input id="port" name="port" type="text" value="" />
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<label for="password">Passwort:</label>
+									</td>
+									<td>
+										<input id="password" name="password" type="text" value="vbus" />
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<label for="password">Verwenden:</label>
+									</td>
+									<td>
+										<label for="create1">Ja</label>
+										<input id="create1" name="create" type="radio" value="true" checked="checked" />
+										<label for="create2">Nein</label>
+										<input id="create2" name="create" type="radio" value="false" />
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</form>
+				</fieldset>
+			</div>
+		</div>
+		<div class="controls">
+			<div class="button" data-action="sendAllForms" data-target="Resol/ajax?wizard=2">
+				Weiter
+			</div>
+		</div>
+	</div>
+</div>

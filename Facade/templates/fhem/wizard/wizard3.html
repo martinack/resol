@@ -1,0 +1,107 @@
+<div>
+	<h3>Schritt 3: FHEM Ger&auml;te einstellen</h3>
+	<p>
+		introduction text
+	</p>
+	<div class="workspace">
+		<div class="createdDevices" style="display:none;">
+			<ul>
+				<li>something</li>
+			</ul>
+		</div>
+		<div class="deviceCreator">
+			<fieldset class="logicalDevice">
+				<legend>Neues FHEM Ger&auml;t</legend>
+				<div class="controls">
+					<div class="button">
+						Speichern
+					</div>
+				</div>
+				<table>
+					<tbody>
+						<tr>
+							<td>
+								<label for="name">Name:</label>
+							</td>
+							<td>
+								<input id="fhem_device_name" type="text" name="name" />
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<label for="type">Typ:</label>
+							</td>
+							<td>
+								<select>
+									<option>Temperatur</option>
+									<option>Bitmaske</option>
+									<option>Schalter</option>
+									<option>Drehzahl</option>
+								</select>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<fieldset class="channels">
+					<legend>Kanal</legend>
+					<select>
+						%channels%
+					</select>
+				</fieldset>
+				<div class="channelInspector">
+					<div class="controls">
+						<div class="button" data-action="refreshFramesForChannel">
+							Neue Daten holen
+						</div>
+					</div>
+					<div class="frameDisplay">
+						<table>
+							<tbody>
+								<tr id="frame0">
+									<td class="byte0">
+										0
+									</td>
+									<td class="byte1">
+										50
+									</td>
+									<td class="byte2">
+										113
+									</td>
+									<td class="byte3">
+										16
+									</td>
+									<td class="byte4">
+										0
+									</td>
+									<td class="byte5">
+										1
+									</td>
+								</tr>
+								<tr id="frame1">
+									<td class="byte0">
+										127
+									</td>
+									<td class="byte1">
+										110
+									</td>
+									<td class="byte2">
+										24
+									</td>
+									<td class="byte3">
+										6
+									</td>
+									<td class="byte4">
+										52
+									</td>
+									<td class="byte5">
+										0
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</fieldset>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,156 @@
+package Resol::Facade::ResolFacade;
+
+our @ISA = qw(Resol::ServiceLayer::Observer);
+
+use Resol::ServiceLayer::Observer;
+use FindBin;
+
+use constant TEMPLATE_PATH => "/templates/";
+use constant READ => "<";
+
+use Data::Dumper;
+local $Data::Dumper::Terse = 1;
+
+sub new
+{
+	my $class = shift;
+	my $this = {};
+	bless $this, $class;
+	return $this;
+}
+
+sub startDevice
+{
+	my $this = shift;
+	my $devName = shift;
+	my $config = shift;
+	
+	my $device = undef;
+	foreach my $observedDevice ($this->getObservedDevices()) {
+		if ($devName == $observedDevice->getName()) {
+			$device = $observedDevice;
+			last;
+		}
+	}
+	
+	if (!defined($device)) {
+		my $device = getDeviceManager()->getOrCreateDevice($devName, $config);
+		$device->registerObserver($this);
+		if (defined($config) && $device->isNew()) {
+			$device->setConfig($config);
+			$device->init();
+			$device->setNew(false);
+		}
+		
+	}
+	
+	$device->start();
+	
+	return $device;
+}
+
+sub getData
+{
+	my $this = shift;
+	my $devName = shift;
+	my $frames = shift;
+	
+	my $device = getDevice($devName);
+	
+	my @ret = $device->getData();
+	
+	return @ret;
+}
+
+sub getDevice
+{
+	my $this = shift;
+	my $devName = shift;
+	
+	
+	
+	return $device;
+}
+
+sub LOG($) {
+	open (MYFILE, '>>C:\Users\martina\Dropbox\dev\fhem\log\mylog.log');
+	print MYFILE shift . "\n";
+	close (MYFILE); 
+}
+
+sub getDeviceManager
+{
+
+}
+
+sub renderTemplate {
+
+	LOG("renderTemplate called");
+	my $this = shift;
+	my $template = shift;
+	my $params = shift;
+	
+	my $renderedTemplate = "";
+	
+	my $myPath = $this->getRootPath();
+	
+	LOG(READ . $myPath . TEMPLATE_PATH . $template);
+	
+	open TEMPLATE, READ . $myPath . TEMPLATE_PATH . $template;
+	
+	while (<TEMPLATE>) {
+		$renderedTemplate .= $_;
+	}
+	
+	close(TEMPLATE);
+	
+	LOG("params:$params");
+		my $str = Dumper(%{$params});
+	
+	LOG("$str");
+	foreach my $paramName (keys %{$params}) {
+		$renderedTemplate =~ s/%$paramName%/$params->{$paramName}/g;
+	}
+	
+	return $renderedTemplate;
+}
+
+sub registerDevice {
+
+	my $this = shift;
+	my $device = shift;
+	
+	$this{_devices}{$device{NAME}} = $device;
+
+}
+
+sub getDevices {
+	my $this = shift;
+	
+	return $this{_devices};
+}
+
+sub isInitialized {
+	my $this = shift;
+	return $this{_initialized};
+}
+
+sub setInitialized {
+	my $this = shift;
+	$this{_initialized} = shift;
+}
+
+sub setRootPath {
+	my $this = shift;
+	my $path = shift;
+	
+	$this{_rootPath} = $path;
+}
+
+sub getRootPath {
+	my $this = shift;
+	
+	return $this{_rootPath};
+}
+
+1;
