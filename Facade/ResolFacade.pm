@@ -14,10 +14,8 @@ use constant NOT_INITIALIZED => "Not Initialized";
 
 sub new {
 	my $class = shift;
-	my $propertyFile = shift;
-	my $this = {};
+	my $this = $class->SUPER::new();
 	bless $this, $class;
-	new Resol::ServiceLayer::ServiceContext($propertyFile);
 	return $this;
 }
 
@@ -53,20 +51,20 @@ sub renderTemplate {
 	
 	my $templatePath = $this->getRootPath() . TEMPLATE_PATH . $templateName;
 	
-	$this->getLogger()->debug("will render template: '$templatePath'");
+	#$this->getLogger()->debug("will render template: '$templatePath'");
 	
 	my $template = $this->getService("configurationService")->readFile($templatePath);
 	
 	my $renderedTemplate = $template;
-	$this->getLogger()->trace("got template: $renderedTemplate");
+	#$this->getLogger()->trace("got template: $renderedTemplate");
 	
 	foreach my $valName (keys %{$values}) {
-		$this->getLogger()->trace("will replace %$valName% with " . $values->{$valName});
+		#$this->getLogger()->trace("will replace %$valName% with " . $values->{$valName});
 		$renderedTemplate =~ s/%$valName%/$values->{$valName}/g;
 	}
 	
 	
-	$this->getLogger()->trace("will return $renderedTemplate");
+	#$this->getLogger()->trace("will return $renderedTemplate");
 	return $renderedTemplate;
 }
 
@@ -103,7 +101,7 @@ sub createChannelForDevice {
 	$newChannel->setDeviceName($deviceName);
 	$newChannel->setName($channelName);
 	
-	$this->getLogger()->debug("will register channel $channelName to device $deviceName");
+	#$this->getLogger()->debug("will register channel $channelName to device $deviceName");
 	
 	$this->getService("deviceProvider")->getNetworkDevice($deviceName)->addChannel($newChannel);
 	

@@ -9,10 +9,11 @@ use Storable;
 sub new
 {
 	my $class = shift;
-	my $this = {
-		_bufferFrame => new Resol::HigherLayer::Frame(),
-		_validFrames => []
-	};
+	my $this = $class->SUPER::new();
+
+	$this->{_bufferFrame} = new Resol::HigherLayer::Frame();
+	$this->{_validFrames} = [];
+
 	bless $this, $class;
 	return $this;
 }

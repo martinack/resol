@@ -13,7 +13,7 @@ sub new {
 	my $class = shift;
 	my $networkAddress = shift;
 	my $password = shift;
-	my $this = {};
+	my $this = $class->SUPER::new();
 	bless $this, $class;
 	
 	$this->{_interpreters} = ();

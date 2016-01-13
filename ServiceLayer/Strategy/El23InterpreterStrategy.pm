@@ -7,7 +7,7 @@ use ServiceLayer::Strategy::AbstractInterpreterStrategy;
 sub new
 {
 	my $class = shift;
-	my $this = {};
+	my $this = $class->SUPER::new();
 	bless $this, $class;
 	return $this;
 }

@@ -7,9 +7,9 @@ use Resol::LowerLayer::Object;
 sub new
 {
 	my $class = shift;
-	my $this = {
-		_observers => []
-	};
+	my $this = $class->SUPER::new();
+
+	$this->{_observers} = [];
 	bless $this, $class;
 	return $this;
 }

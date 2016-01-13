@@ -7,7 +7,7 @@ use Resol::LowerLayer::Object;
 sub new
 {
 	my $class = shift;
-	my $this = {};
+	my $this = $class->SUPER::new();
 	bless $this, $class;
 	return $this;
 }

@@ -8,10 +8,11 @@ use Resol::LowerLayer::Object;
 
 sub new {
 	my $class = shift;
-	my $this = {
-		_header => new Resol::MiddleLayer::FrameHeader(),
-		_frames => []
-	};
+	my $this = $class->SUPER::new();
+
+	$this->{_header} = new Resol::MiddleLayer::FrameHeader();
+	$this->{_frames} = [];
+
 	bless $this, $class;
 	
 	return $this;
