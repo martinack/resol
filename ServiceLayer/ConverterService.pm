@@ -17,7 +17,7 @@ sub toTemperature {
 	my $this = shift;
 	my $input = shift;
 	
-	$this->getLogger()->info($input->getDataByte(0));
+	#$this->getLogger()->info($input->getDataByte(0));
 	
 	
 	

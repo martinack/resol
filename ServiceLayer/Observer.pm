@@ -14,6 +14,6 @@ sub new
 
 sub receiveEvent {
 	my $this = shift;
-	$this->getLogger()->error("The method Resol::ServiceLayer::Observer->receiveEvent is not implemented by default, add a valid implementation!");
+	#$this->getLogger()->error("The method Resol::ServiceLayer::Observer->receiveEvent is not implemented by default, add a valid implementation!");
 	die;
 }

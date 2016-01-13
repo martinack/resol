@@ -100,7 +100,7 @@ sub registerInterpreter {
 	push(@{$this->{_interpreters}}, $interpreter);
 	
 	my $name = $this->getName();
-	$this->getLogger()->debug("registered interpreter '$interpreter' to device '$name'");
+	#$this->getLogger()->debug("registered interpreter '$interpreter' to device '$name'");
 }
 
 sub getConnection {
@@ -125,11 +125,11 @@ sub listen {
 	if (!defined($this->{_transmissionBegun}) || $this->{_transmissionBegun} == 0) {
 		$this->send('DATA');
 		$buf = $this->receive(44);
-		if ($buf eq START_DATA_TRANSMISSION) {
-			$this->getLogger()->debug("data connection established...");
-		} else {
-			$this->getLogger()->warn("something seems to be not correct: after saying 'DATA' to vbus, he answered not as expected.");
-		}
+		#if ($buf eq START_DATA_TRANSMISSION) {
+		#	$this->getLogger()->debug("data connection established...");
+		#} else {
+		#	$this->getLogger()->warn("something seems to be not correct: after saying 'DATA' to vbus, he answered not as expected.");
+		#}
 		$this->{_transmissionBegun} = 1;
 	} else {
 		$this->getLogger()->debug("data connection was already established, clearing buffer and start listening...");
@@ -139,7 +139,7 @@ sub listen {
 	my $hostname = $this->getHostname();
 	my $foundValid = 0;
 	if (defined($timeout) && $timeout > -1) {
-		$this->getLogger()->info("will listen to $hostname for $timeout seconds");
+		#$this->getLogger()->info("will listen to $hostname for $timeout seconds");
 		my $start = time;
 		my $timeDiff;
 		while (time - $start < $timeout) {
@@ -153,13 +153,13 @@ sub listen {
 		}
 		
 		if (!$foundValid) {
-			$this->getLogger()->warn("don't received valid data for $timeout seconds. Will reset connection and try it again...");
+			#$this->getLogger()->warn("don't received valid data for $timeout seconds. Will reset connection and try it again...");
 			$this->resetConnection();
 			$this->listen($timeout);
 		}
 		
 	} else {
-		$this->getLogger()->info("will start asynchronous listening to $hostname");
+		#$this->getLogger()->info("will start asynchronous listening to $hostname");
 		async {
 			$buf = $this->receive(2048);
 			my @data = $this->unwrap($buf);
@@ -183,14 +183,14 @@ sub login {
 	if (defined($this->getConnection())) {
 		if (!$this->{_loggedIn}) {
 			my $password = $this->getPassword();
-			$this->getLogger()->trace("trying password $password");
+			#$this->getLogger()->trace("trying password $password");
 			$this->send("PASS $password");
 			my $buf = $this->receive(46);
 			if ($buf eq PASSWORD_ACCEPTED) {
 				$this->{_loggedIn} = 1;
-				$this->getLogger()->debug("login succeeded.");
+				#$this->getLogger()->debug("login succeeded.");
 			} else {
-				$this->getLogger()->error("login failed, using pw: '$password'");
+				#$this->getLogger()->error("login failed, using pw: '$password'");
 			}
 		}
 	}
@@ -202,7 +202,7 @@ sub connect {
 	my $hostname = $this->getHostname();
 	my $port = $this->getPort();
 	
-	$this->getLogger()->debug("trying to connect to $hostname:$port");
+	#$this->getLogger()->debug("trying to connect to $hostname:$port");
 	
 	if (!defined($this->{_connection})) {
 		if (defined($hostname)&& defined($port)) {
@@ -219,13 +219,13 @@ sub connect {
 			my $buf = $this->receive(14);
 			
 			if ($buf ne CONNECTION_ACCEPTED) {
-				$this->getLogger()->warn("connection to '$hostname' established, but something seems to be not correct.");
+				#$this->getLogger()->warn("connection to '$hostname' established, but something seems to be not correct.");
 			} else {
-				$this->getLogger()->info("connection to '$hostname' successfully established.");
+				#$this->getLogger()->info("connection to '$hostname' successfully established.");
 			}
 			
 		} else {
-			$this->getLogger()->error("Address is not complete: [hostname: '$hostname', port: '$port']");
+			#$this->getLogger()->error("Address is not complete: [hostname: '$hostname', port: '$port']");
 		}
 	}
 }
@@ -277,9 +277,9 @@ sub getData {
 	
 	#$this->getLogger()->trace("checking registered interpreters for '$interpreter'");
 	foreach my $registeredInterpreter (@{$this->{_interpreters}}) {
-		$this->getLogger()->trace("checking '$registeredInterpreter'");
+		#$this->getLogger()->trace("checking '$registeredInterpreter'");
 		if ($registeredInterpreter == $interpreter) {
-			$this->getLogger()->debug("will return data of interpreter '$interpreter'");
+			#$this->getLogger()->debug("will return data of interpreter '$interpreter'");
 			$ret = $interpreter->getData();
 			last;
 		}

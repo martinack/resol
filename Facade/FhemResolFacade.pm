@@ -11,12 +11,6 @@ use constant MASTER_TEMPLATE => "fhem/master.html";
 use constant AJAX_ANSWER => "fhem/answer.json";
 use constant TEMPLATE_DIR => "fhem/";
 
-sub LOG($) {
-	open (MYFILE, '>>C:\Users\martina\Dropbox\dev\fhem\log\mylog.log');
-	print MYFILE shift . "\n";
-	close (MYFILE); 
-}
-
 sub new
 {
 	my $class = shift;
@@ -32,14 +26,13 @@ sub new
 
 sub getOverview
 {
-	LOG("Facade call -> getOverview");
 	my $this = shift;
 	my $globalResolModule = shift;
 	my $allResolModules = shift;
 	
 	my $ret = "";
 	
-	$this->getLogger()->debug("will generate overview for state '" . $globalResolModule->{STATE} . "'");
+	#$this->getLogger()->debug("will generate overview for state '" . $globalResolModule->{STATE} . "'");
 	
 	my $content = $this->buildContent($globalResolModule, $allResolModules);
 	
@@ -53,7 +46,7 @@ sub getTemplateForState {
 	my $this = shift;
 	my $state = shift;
 	
-	$this->getLogger()->debug("looking up template for state '$state'");
+	#$this->getLogger()->debug("looking up template for state '$state'");
 	
 	return $this->{_templateMapping}->{$state};
 }
@@ -120,7 +113,7 @@ sub delegateAjax {
 		
 			chop($addrString);
 		
-			$this->getLogger()->debug("found addresses: $addrString");
+			#$this->getLogger()->debug("found addresses: $addrString");
 			my $addr = {
 				addresses => $addrString
 			};
@@ -156,7 +149,7 @@ sub delegateAjax {
 			my $channelName = $params->{"channel"};
 			my $frame = $this->getDataForChannel($channelName);
 		
-			$this->getLogger()->debug(Dumper($frame));
+			#$this->getLogger()->debug(Dumper($frame));
 		
 			my $frameHexString = "";
 			my $frameTemperatureString = "";
@@ -226,7 +219,7 @@ sub getNetworkDevicesByFhemModule {
 	
 	my $ret = {};
 	
-	$this->getLogger()->debug("searching in fhem module for network devices. fhem module: " . Dumper($globalResolModule));
+	#$this->getLogger()->debug("searching in fhem module for network devices. fhem module: " . Dumper($globalResolModule));
 	
 	foreach my $paramName (keys %{$globalResolModule}) {
 		if ($paramName =~ m/^device\./) {

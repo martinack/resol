@@ -14,7 +14,7 @@ sub new
 
 sub getData {
 	my $this = shift;
-	$this->getLogger()->error("The method Resol::ServiceLayer::Interpreter::AbstractDataInterpreter->getData is not implemented by default, add a valid implementation!");
+	#$this->getLogger()->error("The method Resol::ServiceLayer::Interpreter::AbstractDataInterpreter->getData is not implemented by default, add a valid implementation!");
 	die;
 }
 

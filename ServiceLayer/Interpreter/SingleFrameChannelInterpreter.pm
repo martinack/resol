@@ -30,11 +30,11 @@ sub receiveEvent {
 	my $this = shift;
 	my $frame = shift;
 	
-	$this->getLogger()->trace("received frame: '$frame'");
-	$this->getLogger()->trace("has frame: " . $this->hasFrame());
-	$this->getLogger()->trace("channel frame: " . $this->isFrameForChannel($frame));
+	#$this->getLogger()->trace("received frame: '$frame'");
+	#$this->getLogger()->trace("has frame: " . $this->hasFrame());
+	#$this->getLogger()->trace("channel frame: " . $this->isFrameForChannel($frame));
 	if ((!$this->hasFrame()) && $this->isFrameForChannel($frame)) {
-		$this->getLogger()->debug("found valid frame: '$frame'");
+		#$this->getLogger()->debug("found valid frame: '$frame'");
 		$this->{_frame} = $frame;
 	}
 }
@@ -50,9 +50,9 @@ sub isFrameForChannel {
 	
 	my $ret = 1;
 	
-	$this->getLogger()->trace("source: [frame: '$source', channel: '" . $channel->getSource() . "']");
-	$this->getLogger()->trace("destination: [frame: '$destination', channel: '" . $channel->getDestination() . "']");
-	$this->getLogger()->trace("framecount: [frame: '$framecount', channel: '" . $channel->getFramecount() . "']");
+	#$this->getLogger()->trace("source: [frame: '$source', channel: '" . $channel->getSource() . "']");
+	#$this->getLogger()->trace("destination: [frame: '$destination', channel: '" . $channel->getDestination() . "']");
+	#$this->getLogger()->trace("framecount: [frame: '$framecount', channel: '" . $channel->getFramecount() . "']");
 	$ret &= ($source eq $channel->getSource());
 	$ret &= ($destination eq $channel->getDestination());
 	$ret &= ($framecount eq $channel->getFramecount());
@@ -70,7 +70,7 @@ sub getData {
 	my $this = shift;
 	
 	my $ret = $this->{_frame};
-	$this->getLogger()->trace("will return frame:" . $ret);
+	#$this->getLogger()->trace("will return frame:" . $ret);
 	return $ret;
 }
 

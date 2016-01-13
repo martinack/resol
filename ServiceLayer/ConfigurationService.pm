@@ -18,7 +18,7 @@ sub readProperties {
 	
 	my $ret = {};
 	
-	$this->getLogger()->debug("reading properties '$propFile'");
+	#$this->getLogger()->debug("reading properties '$propFile'");
 	
 	my $fileContent = $this->readFile($propFile);
 	my @propLines = split(/\n/, $fileContent);
@@ -26,7 +26,7 @@ sub readProperties {
 	foreach my $propLine (@propLines) {
 		my ($propName, $propVal) = split(/=/, $propLine);
 		if ($propName ne "" && !($propName =~ m/^#.*/)){
-			$this->getLogger()->trace("found property [name='$propName', value='$propVal']");
+			#$this->getLogger()->trace("found property [name='$propName', value='$propVal']");
 			$ret->{$propName} = $propVal;
 			$this->{_properties}->{$propName} = $propVal;
 		}
