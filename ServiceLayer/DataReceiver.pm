@@ -26,7 +26,6 @@ sub receiveData {
 	
 	
 	#$this->getLogger()->debug("received raw data:" . @data);
-	
 	foreach my $date (@data) {
 		$this->getBuffer()->pushData($date);
 		#if ($this->getLogger()->is_trace()) {

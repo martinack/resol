@@ -93,6 +93,7 @@ sub searchChannels {
 	$device->connect();
 	$device->login();
 	$device->listen(5);
+	$device->disconnect();
 	my @channels = @{$deviceAddrInterpreter->getData()};
 	
 	#foreach my $channel (@channels) {
@@ -115,6 +116,7 @@ sub getOneValidFrameByChannel {
 	
 	$device->registerInterpreter($interpreter);
 	$device->listen(5);
+	$device->disconnect();
 	
 	return $device->getData($interpreter);
 }

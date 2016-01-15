@@ -102,14 +102,13 @@ sub getService {
 		}
 	}
 	
-
 	my $matchCount = @matches;
 	my $ret;
 	
 	if ($matchCount == 0) {
-		print("ERROR: No service for '$serviceToGet' found, check your service definitions.");
+		print("ERROR: No service for '$serviceToGet' found, check your service definitions.\n");
 	} elsif ($matchCount > 1) {
-		print("ERROR: More then one service for '$serviceToGet' found, check your service definitions.");
+		print("ERROR: More then one service for '$serviceToGet' found, check your service definitions.\n");
 	} else {
 		my $service = @matches[0];
 		my $propClass = Scalar::Util::blessed($service);

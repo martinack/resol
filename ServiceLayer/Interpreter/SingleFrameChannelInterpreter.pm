@@ -48,15 +48,17 @@ sub isFrameForChannel {
 	my $destination = $this->unwrapAddress($frame->getHeader()->getDestination());
 	my $framecount = $frame->getHeader()->getFrameCount();
 	
+print("EVENT\n");
 	my $ret = 1;
 	
-	#$this->getLogger()->trace("source: [frame: '$source', channel: '" . $channel->getSource() . "']");
-	#$this->getLogger()->trace("destination: [frame: '$destination', channel: '" . $channel->getDestination() . "']");
-	#$this->getLogger()->trace("framecount: [frame: '$framecount', channel: '" . $channel->getFramecount() . "']");
+	print("source: [frame: '$source', channel: '" . $channel->getSource() . "']\n");
+	print("destination: [frame: '$destination', channel: '" . $channel->getDestination() . "']\n");
+	print("framecount: [frame: '$framecount', channel: '" . $channel->getFramecount() . "']\n");
 	$ret &= ($source eq $channel->getSource());
 	$ret &= ($destination eq $channel->getDestination());
 	$ret &= ($framecount eq $channel->getFramecount());
 	
+print("ret: $ret\n");
 	return $ret;
 }
 

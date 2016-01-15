@@ -82,7 +82,7 @@ sub getRootPath {
 sub getDataForChannel {
 	my $this = shift;
 	my $channel = shift;
-	
+
 	return $this->getService("deviceProvider")->getOneValidFrameByChannel($channel);
 }
 
@@ -93,15 +93,13 @@ sub createChannelForDevice {
 	my $source = shift;
 	my $destination = shift;
 	my $framecount = shift;
-	
+
 	my $newChannel = $this->getService("channel");
 	$newChannel->setSource($source);
 	$newChannel->setDestination($destination);
 	$newChannel->setFramecount($framecount);
 	$newChannel->setDeviceName($deviceName);
 	$newChannel->setName($channelName);
-	
-	#$this->getLogger()->debug("will register channel $channelName to device $deviceName");
 	
 	$this->getService("deviceProvider")->getNetworkDevice($deviceName)->addChannel($newChannel);
 	

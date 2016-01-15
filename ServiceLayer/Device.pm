@@ -132,7 +132,7 @@ sub listen {
 		#}
 		$this->{_transmissionBegun} = 1;
 	} else {
-		$this->getLogger()->debug("data connection was already established, clearing buffer and start listening...");
+		#$this->getLogger()->debug("data connection was already established, clearing buffer and start listening...");
 		$this->getReceiver()->getBuffer()->clear();
 	}
 	
@@ -228,6 +228,14 @@ sub connect {
 			#$this->getLogger()->error("Address is not complete: [hostname: '$hostname', port: '$port']");
 		}
 	}
+}
+
+sub disconnect {
+	my $this = shift;
+
+	#$this->send("QUIT\n");
+	$this->{_connection}->close();
+	$this->resetConnection();
 }
 
 sub receive {
