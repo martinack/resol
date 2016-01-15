@@ -9,8 +9,12 @@ use Resol::ServiceLayer::Connector;
 use Resol::ServiceLayer::DataReceiver;
 use Resol::ServiceLayer::ConverterService;
 
-use constant TEMPLATE_PATH => "/templates/";
-use constant NOT_INITIALIZED => "Not Initialized";
+# resol4perl
+#
+# @author Martin Ackermann
+#
+# This class serves as entry point for usage of resol4perl.
+#
 
 sub new {
 	my $class = shift;
@@ -19,14 +23,21 @@ sub new {
 	return $this;
 }
 
-sub getNetworkDeviceAddresses {
-	my $this = shift;
-	
-	$this->{_networkDevices} = $this->getService("deviceProvider")->searchNetworkDevices();
-	
-	return $this->{_networkDevices};
-}
-
+#
+# This method creates a network device with the given parameters.<br />
+# Afterwards you can refer to the device by the chosen name.<br />
+# You should only create one device per physical device - however it
+# should work also when you "overdefine" your device (untested).
+# 
+# @param name 
+# 	- the name of the network device. This is a free choosable name.
+# @param addr
+#	- the network address of the vbus device - either an IP address or an dns alias is possible.
+# @param port
+#	- the communication port of the vbus (in most cases it should be 7053)
+# @param password
+#	- the password of the vbus (if you haven't changed it it is "vbus1")
+#
 sub createNetworkDevice {
 	my $this = shift;
 	my $name = shift;
@@ -37,6 +48,16 @@ sub createNetworkDevice {
 	$this->getService("deviceProvider")->createNetworkDevice($name, $addr, $port, $password);
 }
 
+#
+# This method opens a connection to the given device and just listen some seconds to the communication.< br/>
+# The device has to be defined previosly.
+# Afterwards it will return every "channel" which occured during listening.
+#
+# @see createNetworkDevice
+#
+# @param device
+#	- the name of the (defined!) (vbus) device.
+#
 sub getCommunicationChannels {
 	my $this = shift;
 	my $device = shift;
@@ -44,30 +65,7 @@ sub getCommunicationChannels {
 	$this->getService("deviceProvider")->searchChannels($device);
 }
 
-sub renderTemplate {
-	my $this = shift;
-	my $templateName = shift;
-	my $values = shift;
-	
-	my $templatePath = $this->getRootPath() . TEMPLATE_PATH . $templateName;
-	
-	#$this->getLogger()->debug("will render template: '$templatePath'");
-	
-	my $template = $this->getService("configurationService")->readFile($templatePath);
-	
-	my $renderedTemplate = $template;
-	#$this->getLogger()->trace("got template: $renderedTemplate");
-	
-	foreach my $valName (keys %{$values}) {
-		#$this->getLogger()->trace("will replace %$valName% with " . $values->{$valName});
-		$renderedTemplate =~ s/%$valName%/$values->{$valName}/g;
-	}
-	
-	
-	#$this->getLogger()->trace("will return $renderedTemplate");
-	return $renderedTemplate;
-}
-
+# @TODO: Is this method used?
 sub getRootPath {
 	my $this = shift;
 	
@@ -79,6 +77,11 @@ sub getRootPath {
 	return $this->{_rootPath};
 }
 
+#
+# This method will listen to the given chanel for 5 seconds and then
+# either return the first valid frame for this chanel or undef.
+#
+#
 sub getDataForChannel {
 	my $this = shift;
 	my $channel = shift;
@@ -86,6 +89,20 @@ sub getDataForChannel {
 	return $this->getService("deviceProvider")->getOneValidFrameByChannel($channel);
 }
 
+#
+# This methods registers a channel with the given settings for the given device.
+#
+# @param deviceName
+#	- the name of the device.
+# @param channelName
+#	- the name of the channel.
+# @param source
+#	- the source of the communication (in all known cases this is "001").
+# @param destination
+#	- the destination of the communication (such as "711" for DeltaSolBxPlus)
+# @param framecount
+#	- the number of frames of this chanel.
+#
 sub createChannelForDevice {
 	my $this = shift;
 	my $deviceName = shift;
