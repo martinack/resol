@@ -4,6 +4,12 @@ our @ISA = qw(Resol::LowerLayer::Object);
 
 use Resol::LowerLayer::Object;
 
+#
+# @author Martin Ackermann
+#
+# This class represents a byte buffer in which you can push bytes up to a defined length.
+#
+
 sub new
 {
 	my $class = shift;

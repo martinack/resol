@@ -6,19 +6,20 @@ use FindBin;
 use File::Basename;
 use File::Spec::Functions;
 
-use Data::Dumper;
-local $Data::Dumper::Terse = 1;
+#
+# @author Martin Ackermann
+#
+# This is a basic object which provides a "instanceOf" method, and access to a global service context.
+#
 
 BEGIN {
 	my $libBasePath = File::Spec::Functions::rel2abs(File::Basename::dirname(__FILE__)) . "/../lib";
 	$libBasePath =~ s/\\/\//g;
 
-	#push(@INC, "$libBasePath/Log-Dispatch-2.41/lib");
-	#push(@INC, "$libBasePath/Log-Log4perl-1.43/lib");
-	#push(@INC, "$libBasePath/Time-HiRes-1.9726");
 	push(@INC, "$libBasePath/Scalar-List-Utils-1.35/lib");
 }
 
+#@TODO: is this method needed?
 sub getRootDir {
 	my $ret = File::Spec::Functions::rel2abs(File::Basename::dirname(__FILE__)) . "/../";
 	$ret =~ s/\\/\//g;

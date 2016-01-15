@@ -4,6 +4,21 @@ our @ISA = qw(Resol::LowerLayer::BinaryData);
 
 use Resol::LowerLayer::BinaryData;
 
+#
+# @author Martin Ackermann
+#
+# Extension of BinaryData which represents a data frame and<br />
+# provides extended functionality regarding resol vbus communication:<br />
+# <ul>
+#  <li>When retrieving a data byte the MSB is already considered</li>
+#  <li>The length of a frame is preset to 6 (4 bytes of data, 1 byte septett, 1byte checksum)</li>
+#  <li>It can build the checksum of the frame</li>
+#  <li>It can validate the frame regarding the checksum</li>
+# </ul>
+#
+# @see Resol::LowerLayer::BinaryData
+#
+
 sub new
 {
 	my $class = shift;

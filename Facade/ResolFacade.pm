@@ -9,7 +9,6 @@ use Resol::ServiceLayer::Connector;
 use Resol::ServiceLayer::DataReceiver;
 use Resol::ServiceLayer::ConverterService;
 
-# resol4perl
 #
 # @author Martin Ackermann
 #
