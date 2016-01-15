@@ -4,6 +4,12 @@ our @ISA = qw(Resol::LowerLayer::Object);
 
 use Resol::LowerLayer::Object;
 
+#
+# @author Martin Ackermann
+#
+# An 'classical' observer.
+#
+
 sub new
 {
 	my $class = shift;
@@ -14,6 +20,7 @@ sub new
 
 sub receiveEvent {
 	my $this = shift;
-	#$this->getLogger()->error("The method Resol::ServiceLayer::Observer->receiveEvent is not implemented by default, add a valid implementation!");
+	print("The method Resol::ServiceLayer::Observer->receiveEvent is not implemented by default, add a valid implementation!");
+	#dieing here is okay - since this can only happen during development time.
 	die;
 }

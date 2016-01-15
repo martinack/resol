@@ -15,6 +15,18 @@ use constant SINGLETON => "singleton";
 use constant PROPERTY => "property";
 use constant DEFAULT_CONFIG => "default.properties";
 
+#
+# @author Martin Ackermann
+#
+# A 'ServiceContext' provides access to instances of classes.<br />
+# It is able to read a service definition file and creating the instances out of it.
+#
+# @TODO: This class and the usage of it should be removed for the following reasons:
+# * Currently there is onyl one singleton -> This should be implemented by classical singleton pattern
+# * It is not able to set default properties - this means the key point of having a service context (ioc) is missing :(
+#
+#
+
 sub new {
 	my $class = shift;
 	my $this = $class->SUPER::new();
@@ -106,9 +118,9 @@ sub getService {
 	my $ret;
 	
 	if ($matchCount == 0) {
-		print("ERROR: No service for '$serviceToGet' found, check your service definitions.\n");
+		#print("ERROR: No service for '$serviceToGet' found, check your service definitions.\n");
 	} elsif ($matchCount > 1) {
-		print("ERROR: More then one service for '$serviceToGet' found, check your service definitions.\n");
+		#print("ERROR: More then one service for '$serviceToGet' found, check your service definitions.\n");
 	} else {
 		my $service = @matches[0];
 		my $propClass = Scalar::Util::blessed($service);
