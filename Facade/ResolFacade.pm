@@ -5,9 +5,7 @@ our @ISA = qw(Resol::LowerLayer::Object);
 use Resol::LowerLayer::Object;
 use Resol::ServiceLayer::ServiceContext;
 use Resol::ServiceLayer::DeviceProvider;
-use Resol::ServiceLayer::Connector;
 use Resol::ServiceLayer::DataReceiver;
-use Resol::ServiceLayer::ConverterService;
 
 #
 # @author Martin Ackermann
