@@ -6,37 +6,18 @@ use Resol::ServiceLayer::Device;
 use Resol::ServiceLayer::Interpreter::DeviceAddressInterpreter;
 use Resol::ServiceLayer::Interpreter::SingleFrameChannelInterpreter;
 
+#
+# @author Martin Ackermann
+#
+# This service is able to handle devices and chanels - it can create devices,<br />
+# searching, creating and getting channels and retrieving data for a chanel.
+#
+
 sub new {
 	my $class = shift;
 	my $this = $class->SUPER::new();
 	bless $this, $class;
 	return $this;
-}
-
-sub searchNetworkDevices {
-	my $this = shift;
-	
-	#$this->getLogger()->info("Scanning for resol network devices...");
-	#@TODO: broadcasting, real search for network devices.
-	my @ret = ("192.168.178.58:7053:vbus1");
-	
-	my $devCount = @ret;
-	
-	if ($devCount == 0) {
-		#$this->getLogger()->warn("No resol network devices found.");
-	} else {
-		#$this->getLogger()->info("Found $devCount resol network devices");
-	}
-	
-	return \@ret;
-}
-
-sub loadConfiguredDevices {
-	my $this = shift;
-	
-	my $deviceConfig = $this->getService("configurationService")->getMatchingProperties("^device\..*");
-
-	
 }
 
 sub getNetworkDevice {
@@ -60,7 +41,6 @@ sub createNetworkDevice {
 	my $password = shift;
 	
 	if (!defined($this->{_networkDevices}->{$name})) {
-		#$this->getLogger()->debug("creating network device '$name'");
 		my $device = $this->getService("device");
 		$device->setName($name);
 		$device->setHostname($address);
@@ -84,8 +64,6 @@ sub searchChannels {
 	my $deviceName = shift;
 	my @channels = ();
 	
-	#$this->getLogger()->debug("searching hardware devices for network device '$deviceName'");
-	
 	my $device = $this->getNetworkDevice($deviceName);
 	my $deviceAddrInterpreter = $this->getService("deviceAddressInterpreter");
 	
@@ -95,10 +73,6 @@ sub searchChannels {
 	$device->listen(5);
 	$device->disconnect();
 	my @channels = @{$deviceAddrInterpreter->getData()};
-	
-	#foreach my $channel (@channels) {
-	#	$this->getLogger()->debug("found channel: " . $channel->getName());
-	#}
 	
 	return \@channels;
 }

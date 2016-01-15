@@ -9,6 +9,13 @@ use constant PASSWORD_ACCEPTED => "2b4f4b3a2050617373776f72642061636365707465640
 use constant CONNECTION_ACCEPTED => "2b48454c4c4f0a";
 use constant START_DATA_TRANSMISSION => "2b4f4b3a204461746120696e636f6d696e672e2e2e0a";
 
+#
+# @author Martin Ackermann
+#
+# Representation of a vbus network device.<br />
+# It can establish a connection, sending data, perform the login, receiving (raw) data and disconnect.
+#
+
 sub new {
 	my $class = shift;
 	my $networkAddress = shift;
@@ -100,7 +107,6 @@ sub registerInterpreter {
 	push(@{$this->{_interpreters}}, $interpreter);
 	
 	my $name = $this->getName();
-	#$this->getLogger()->debug("registered interpreter '$interpreter' to device '$name'");
 }
 
 sub getConnection {
@@ -125,21 +131,17 @@ sub listen {
 	if (!defined($this->{_transmissionBegun}) || $this->{_transmissionBegun} == 0) {
 		$this->send('DATA');
 		$buf = $this->receive(44);
-		#if ($buf eq START_DATA_TRANSMISSION) {
-		#	$this->getLogger()->debug("data connection established...");
-		#} else {
-		#	$this->getLogger()->warn("something seems to be not correct: after saying 'DATA' to vbus, he answered not as expected.");
-		#}
+		if ($buf eq START_DATA_TRANSMISSION) {
+			print("ERROR: Something seems to be not correct: after saying 'DATA' to vbus, he answered not as expected.");
+		}
 		$this->{_transmissionBegun} = 1;
 	} else {
-		#$this->getLogger()->debug("data connection was already established, clearing buffer and start listening...");
 		$this->getReceiver()->getBuffer()->clear();
 	}
 	
 	my $hostname = $this->getHostname();
 	my $foundValid = 0;
 	if (defined($timeout) && $timeout > -1) {
-		#$this->getLogger()->info("will listen to $hostname for $timeout seconds");
 		my $start = time;
 		my $timeDiff;
 		while (time - $start < $timeout) {
@@ -153,13 +155,11 @@ sub listen {
 		}
 		
 		if (!$foundValid) {
-			#$this->getLogger()->warn("don't received valid data for $timeout seconds. Will reset connection and try it again...");
 			$this->resetConnection();
 			$this->listen($timeout);
 		}
 		
 	} else {
-		#$this->getLogger()->info("will start asynchronous listening to $hostname");
 		async {
 			$buf = $this->receive(2048);
 			my @data = $this->unwrap($buf);
@@ -183,14 +183,12 @@ sub login {
 	if (defined($this->getConnection())) {
 		if (!$this->{_loggedIn}) {
 			my $password = $this->getPassword();
-			#$this->getLogger()->trace("trying password $password");
 			$this->send("PASS $password");
 			my $buf = $this->receive(46);
 			if ($buf eq PASSWORD_ACCEPTED) {
 				$this->{_loggedIn} = 1;
-				#$this->getLogger()->debug("login succeeded.");
 			} else {
-				#$this->getLogger()->error("login failed, using pw: '$password'");
+				print("ERROR: login failed, using pw: '$password'");
 			}
 		}
 	}
@@ -202,10 +200,8 @@ sub connect {
 	my $hostname = $this->getHostname();
 	my $port = $this->getPort();
 	
-	#$this->getLogger()->debug("trying to connect to $hostname:$port");
-	
 	if (!defined($this->{_connection})) {
-		if (defined($hostname)&& defined($port)) {
+		if (defined($hostname) && defined($port)) {
 			my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime(time);
 			$mon += 1;
 			my $time = ($year + 1900) . "/" . sprintf("%02d", $mon) . "/" . sprintf("%02d", $mday) . " " . sprintf("%02d", $hour) . ":" . sprintf("%02d", $min) . ":" . sprintf("%02d", $sec);
@@ -216,16 +212,16 @@ sub connect {
 			);
 			die "[ERROR] [$time] - $!" unless $this->{_connection};
 			
+			#@TODO: it should not "die"
+
 			my $buf = $this->receive(14);
 			
 			if ($buf ne CONNECTION_ACCEPTED) {
-				#$this->getLogger()->warn("connection to '$hostname' established, but something seems to be not correct.");
-			} else {
-				#$this->getLogger()->info("connection to '$hostname' successfully established.");
+				print("WARN: Connection to '$hostname' established, but something seems to be not correct.");
 			}
 			
 		} else {
-			#$this->getLogger()->error("Address is not complete: [hostname: '$hostname', port: '$port']");
+			print("Address is not complete: [hostname: '$hostname', port: '$port']");
 		}
 	}
 }
@@ -233,6 +229,7 @@ sub connect {
 sub disconnect {
 	my $this = shift;
 
+	#@TODO: maybe send it:
 	#$this->send("QUIT\n");
 	$this->{_connection}->close();
 	$this->resetConnection();
@@ -283,11 +280,8 @@ sub getData {
 	
 	my $ret = undef;
 	
-	#$this->getLogger()->trace("checking registered interpreters for '$interpreter'");
 	foreach my $registeredInterpreter (@{$this->{_interpreters}}) {
-		#$this->getLogger()->trace("checking '$registeredInterpreter'");
 		if ($registeredInterpreter == $interpreter) {
-			#$this->getLogger()->debug("will return data of interpreter '$interpreter'");
 			$ret = $interpreter->getData();
 			last;
 		}

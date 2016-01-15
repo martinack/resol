@@ -4,6 +4,16 @@ our @ISA = qw(Resol::LowerLayer::Object);
 
 use Resol::LowerLayer::Object;
 
+#
+# @author Martin Ackermann
+#
+# Representation of a communication chanel.<br />
+# It consists of a source address, destination address and the framecount.<br />
+# The framecount is important, since communication can occur for instance from<br />
+# "001" to "711" but with a different amount of data frames (e.g. "11" or "08").<br />
+# Each chanel contains different data.
+#
+
 sub new {
 	my $class = shift;
 	my $this = $class->SUPER::new();

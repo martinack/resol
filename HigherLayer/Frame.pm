@@ -6,6 +6,14 @@ use Resol::MiddleLayer::FrameHeader;
 use Resol::MiddleLayer::FrameData;
 use Resol::LowerLayer::Object;
 
+#
+# @author Martin Ackermann
+#
+# Combination of a frame header and the related data frames.<br />
+# Data can be pushed into this frame.<br />
+# It detects automatically if the data is for the header or for data frames.
+#
+
 sub new {
 	my $class = shift;
 	my $this = $class->SUPER::new();
@@ -125,6 +133,7 @@ sub isEmpty {
 	return $ret;
 }
 
+#@TODO: is this method used?
 sub byteSwitch {
 	my $this = shift;
 	my $bytesToSwitch = shift;	
