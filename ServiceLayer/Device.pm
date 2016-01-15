@@ -229,8 +229,7 @@ sub connect {
 sub disconnect {
 	my $this = shift;
 
-	#@TODO: maybe send it:
-	#$this->send("QUIT\n");
+	$this->send("QUIT\n");
 	$this->{_connection}->close();
 	$this->resetConnection();
 }
