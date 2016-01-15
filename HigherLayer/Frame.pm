@@ -133,14 +133,4 @@ sub isEmpty {
 	return $ret;
 }
 
-#@TODO: is this method used?
-sub byteSwitch {
-	my $this = shift;
-	my $bytesToSwitch = shift;	
-	
-	my $ret = substr($bytesToSwitch, 2, 2) . substr($bytesToSwitch, 0, 2);
-	
-	return $ret;
-}
-
 1;
