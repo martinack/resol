@@ -32,19 +32,11 @@ sub receiveData {
 	my $foundValid = 0;
 	
 	
-	#$this->getLogger()->debug("received raw data:" . @data);
 	foreach my $date (@data) {
 		$this->getBuffer()->pushData($date);
-		#if ($this->getLogger()->is_trace()) {
-		#	for my $i (0..$this->getBuffer()->getDataFrameCount() - 1) {
-		#		my $frame = $this->getBuffer()->getDataFrame($i);
-		#	}
-		#}
 		if ($this->getBuffer()->isValid()) {
 			$foundValid = 1;
-			#$this->getLogger()->trace("found valid data, will fire event");
 			my $frame = $this->archiveFrame();
-			#$this->getLogger()->debug("found valid frame, framecount:" . $frame->getHeader()->getFrameCount());
 			$this->fireEvent($frame);
 			$this->getBuffer()->clear();
 		}
