@@ -24,6 +24,7 @@ use constant DEFAULT_CONFIG => "default.properties";
 # @TODO: This class and the usage of it should be removed for the following reasons:
 # * Currently there is onyl one singleton -> This should be implemented by classical singleton pattern
 # * It is not able to set default properties - this means the key point of having a service context (ioc) is missing :(
+# * It creates just overhead (configuration, code readability, memory, etc.)
 #
 #
 
