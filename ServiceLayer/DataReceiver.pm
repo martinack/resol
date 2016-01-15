@@ -6,6 +6,13 @@ use Resol::HigherLayer::Frame;
 use Resol::ServiceLayer::Observable;
 use Storable;
 
+#
+# @author Martin Ackermann
+#
+# Receives data and push it into a frame until a valid frame was found.<br />
+# Once a valid frame was found the frame gets archived and a new, empty frame is created.
+#
+
 sub new
 {
 	my $class = shift;

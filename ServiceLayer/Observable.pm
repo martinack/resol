@@ -4,6 +4,12 @@ our @ISA = qw(Resol::LowerLayer::Object);
 
 use Resol::LowerLayer::Object;
 
+#
+# @author Martin Ackermann
+#
+# An 'classical' observable object.
+#
+
 sub new
 {
 	my $class = shift;
