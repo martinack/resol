@@ -26,7 +26,6 @@ use constant DEFAULT_CONFIG => "default.properties";
 # * It is not able to set default properties - this means the key point of having a service context (ioc) is missing :(
 # * It creates just overhead (configuration, code readability, memory, etc.)
 #
-#
 
 sub new {
 	my $class = shift;

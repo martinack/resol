@@ -5,6 +5,13 @@ our @ISA = qw(Resol::ServiceLayer::Interpreter::AbstractDataInterpreter);
 use Resol::ServiceLayer::Interpreter::AbstractDataInterpreter;
 use Resol::HigherLayer::Channel;
 
+#
+# @author Martin Ackermann
+#
+# Extension of AbstractDataInterpreter which extracts the chanel information from received frames.<br />
+# #getData will return all found chanels.
+#
+
 sub new
 {
 	my $class = shift;
@@ -17,9 +24,6 @@ sub new
 sub receiveEvent {
 	my $this = shift;
 	my $frame = shift;
-	
-	#$this->getLogger()->trace("receiving event with data: '$frame'");
-	
 	
 	my $channel = $this->createChannel($this->unwrapAddress($frame->getHeader()->getSource()), $this->unwrapAddress($frame->getHeader()->getDestination()), $frame->getHeader()->getFrameCount());
 	

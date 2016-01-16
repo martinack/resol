@@ -4,6 +4,13 @@ our @ISA = qw(Resol::ServiceLayer::Observer);
 
 use Resol::ServiceLayer::Observer;
 
+#
+# @author Martin Ackermann
+#
+# Extension of Observer which is meant to receive valid frames.
+#
+
+
 sub new
 {
 	my $class = shift;
@@ -14,7 +21,7 @@ sub new
 
 sub getData {
 	my $this = shift;
-	#$this->getLogger()->error("The method Resol::ServiceLayer::Interpreter::AbstractDataInterpreter->getData is not implemented by default, add a valid implementation!");
+	print("ERROR: The method Resol::ServiceLayer::Interpreter::AbstractDataInterpreter->getData is not implemented by default, add a valid implementation!");
 	die;
 }
 

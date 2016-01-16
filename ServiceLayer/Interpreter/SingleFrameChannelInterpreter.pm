@@ -5,6 +5,13 @@ our @ISA = qw(Resol::ServiceLayer::Interpreter::AbstractDataInterpreter);
 use Resol::ServiceLayer::Interpreter::AbstractDataInterpreter;
 use Resol::HigherLayer::Channel;
 
+#
+# @author Martin Ackermann
+#
+# Extension of AbstractDataInterpreter which checks if a received frame is for a specific chanel.<br />
+# #getData will return the first valid received frame for the specified chanel.
+#
+
 sub new
 {
 	my $class = shift;
@@ -30,11 +37,7 @@ sub receiveEvent {
 	my $this = shift;
 	my $frame = shift;
 	
-	#$this->getLogger()->trace("received frame: '$frame'");
-	#$this->getLogger()->trace("has frame: " . $this->hasFrame());
-	#$this->getLogger()->trace("channel frame: " . $this->isFrameForChannel($frame));
 	if ((!$this->hasFrame()) && $this->isFrameForChannel($frame)) {
-		#$this->getLogger()->debug("found valid frame: '$frame'");
 		$this->{_frame} = $frame;
 	}
 }
@@ -48,17 +51,12 @@ sub isFrameForChannel {
 	my $destination = $this->unwrapAddress($frame->getHeader()->getDestination());
 	my $framecount = $frame->getHeader()->getFrameCount();
 	
-print("EVENT\n");
 	my $ret = 1;
 	
-	print("source: [frame: '$source', channel: '" . $channel->getSource() . "']\n");
-	print("destination: [frame: '$destination', channel: '" . $channel->getDestination() . "']\n");
-	print("framecount: [frame: '$framecount', channel: '" . $channel->getFramecount() . "']\n");
 	$ret &= ($source eq $channel->getSource());
 	$ret &= ($destination eq $channel->getDestination());
 	$ret &= ($framecount eq $channel->getFramecount());
 	
-print("ret: $ret\n");
 	return $ret;
 }
 
@@ -72,7 +70,6 @@ sub getData {
 	my $this = shift;
 	
 	my $ret = $this->{_frame};
-	#$this->getLogger()->trace("will return frame:" . $ret);
 	return $ret;
 }
 
