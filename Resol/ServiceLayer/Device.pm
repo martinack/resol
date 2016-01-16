@@ -136,7 +136,7 @@ sub listen {
 	if (!defined($this->{_transmissionBegun}) || $this->{_transmissionBegun} == 0) {
 		$this->send('DATA');
 		$buf = $this->receive(44);
-		if ($buf eq START_DATA_TRANSMISSION) {
+		if ($buf ne START_DATA_TRANSMISSION) {
 			print("ERROR: Something seems to be not correct: after saying 'DATA' to vbus, he answered not as expected.\n");
 		}
 		$this->{_transmissionBegun} = 1;
