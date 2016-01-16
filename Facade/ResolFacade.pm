@@ -62,18 +62,6 @@ sub getCommunicationChannels {
 	$this->getService("deviceProvider")->searchChannels($device);
 }
 
-# @TODO: Is this method used?
-sub getRootPath {
-	my $this = shift;
-	
-	if (!defined($this->{_rootPath})) {
-		$this->{_rootPath} = File::Spec::Functions::rel2abs(File::Basename::dirname(__FILE__));
-		$this->{_rootPath} =~ s/\\/\//g;
-	}
-	
-	return $this->{_rootPath};
-}
-
 #
 # This method will listen to the given chanel for 5 seconds and then
 # either return the first valid frame for this chanel or undef.
