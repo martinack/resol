@@ -3,6 +3,7 @@ package Resol::ServiceLayer::DeviceProvider;
 our @ISA = qw(Resol::LowerLayer::Object);
 
 use Resol::ServiceLayer::Device;
+use Resol::ServiceLayer::DataReceiver;
 use Resol::ServiceLayer::Interpreter::DeviceAddressInterpreter;
 use Resol::ServiceLayer::Interpreter::SingleFrameChannelInterpreter;
 
@@ -13,11 +14,21 @@ use Resol::ServiceLayer::Interpreter::SingleFrameChannelInterpreter;
 # searching, creating and getting channels and retrieving data for a chanel.
 #
 
+our $instance;
+
 sub new {
 	my $class = shift;
 	my $this = $class->SUPER::new();
 	bless $this, $class;
 	return $this;
+}
+
+sub getInstance {
+	unless (defined($instance)) {
+		$instance = new Resol::ServiceLayer::DeviceProvider();
+	}
+
+	return $instance;
 }
 
 sub getNetworkDevice {
@@ -41,12 +52,12 @@ sub createNetworkDevice {
 	my $password = shift;
 	
 	if (!defined($this->{_networkDevices}->{$name})) {
-		my $device = $this->getService("device");
+		my $device = new Resol::ServiceLayer::Device();
 		$device->setName($name);
 		$device->setHostname($address);
 		$device->setPort($port);
 		$device->setPassword($password);
-		$device->setReceiver($this->getService("dataReceiver"));
+		$device->setReceiver(new Resol::ServiceLayer::DataReceiver());
 		$this->{_networkDevices}->{$name} = $device;
 	}
 }
@@ -65,7 +76,7 @@ sub searchChannels {
 	my @channels = ();
 	
 	my $device = $this->getNetworkDevice($deviceName);
-	my $deviceAddrInterpreter = $this->getService("deviceAddressInterpreter");
+	my $deviceAddrInterpreter = new Resol::ServiceLayer::Interpreter::DeviceAddressInterpreter();
 	
 	$device->registerInterpreter($deviceAddrInterpreter);
 	$device->connect();
@@ -85,7 +96,7 @@ sub getOneValidFrameByChannel {
 	
 	my $device = $this->getNetworkDevice($channel->getDeviceName());
 	
-	my $interpreter = $this->getService("singleFrameChannelInterpreter");
+	my $interpreter = new Resol::ServiceLayer::Interpreter::SingleFrameChannelInterpreter();
 	$interpreter->setChannel($channel);
 	
 	$device->registerInterpreter($interpreter);

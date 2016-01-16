@@ -3,7 +3,6 @@
 our @ISA = qw(Resol::LowerLayer::Object);
 
 use Resol::LowerLayer::Object;
-use Resol::ServiceLayer::ServiceContext;
 use Resol::ServiceLayer::DeviceProvider;
 use Resol::ServiceLayer::DataReceiver;
 
@@ -42,7 +41,8 @@ sub createNetworkDevice {
 	my $port = shift;
 	my $password = shift;
 	
-	$this->getService("deviceProvider")->createNetworkDevice($name, $addr, $port, $password);
+	my $deviceProvider = Resol::ServiceLayer::DeviceProvider->getInstance();
+	$deviceProvider->createNetworkDevice($name, $addr, $port, $password);
 }
 
 #
@@ -59,7 +59,8 @@ sub getCommunicationChannels {
 	my $this = shift;
 	my $device = shift;
 	
-	$this->getService("deviceProvider")->searchChannels($device);
+	my $deviceProvider = Resol::ServiceLayer::DeviceProvider->getInstance();
+	$deviceProvider->searchChannels($device);
 }
 
 #
@@ -71,7 +72,8 @@ sub getDataForChannel {
 	my $this = shift;
 	my $channel = shift;
 
-	return $this->getService("deviceProvider")->getOneValidFrameByChannel($channel);
+	my $deviceProvider = Resol::ServiceLayer::DeviceProvider->getInstance();
+	return $deviceProvider->getOneValidFrameByChannel($channel);
 }
 
 #
@@ -96,14 +98,15 @@ sub createChannelForDevice {
 	my $destination = shift;
 	my $framecount = shift;
 
-	my $newChannel = $this->getService("channel");
+	my $newChannel = new Resol::HigherLayer::Channel();
 	$newChannel->setSource($source);
 	$newChannel->setDestination($destination);
 	$newChannel->setFramecount($framecount);
 	$newChannel->setDeviceName($deviceName);
 	$newChannel->setName($channelName);
 	
-	$this->getService("deviceProvider")->getNetworkDevice($deviceName)->addChannel($newChannel);
+	my $deviceProvider = Resol::ServiceLayer::DeviceProvider->getInstance();
+	$deviceProvider->getNetworkDevice($deviceName)->addChannel($newChannel);
 	
 	return $channel;
 }

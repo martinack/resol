@@ -47,7 +47,7 @@ sub createChannel {
 	my $destination = shift;
 	my $framecount = shift;
 	
-	my $ret = $this->getService("channel");
+	my $ret = new Resol::HigherLayer::Channel();
 	$ret->setSource($source);
 	$ret->setDestination($destination);
 	$ret->setFramecount($framecount);

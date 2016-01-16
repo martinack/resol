@@ -137,7 +137,7 @@ sub listen {
 		$this->send('DATA');
 		$buf = $this->receive(44);
 		if ($buf eq START_DATA_TRANSMISSION) {
-			print("ERROR: Something seems to be not correct: after saying 'DATA' to vbus, he answered not as expected.");
+			print("ERROR: Something seems to be not correct: after saying 'DATA' to vbus, he answered not as expected.\n");
 		}
 		$this->{_transmissionBegun} = 1;
 	} else {
@@ -193,7 +193,7 @@ sub login {
 			if ($buf eq PASSWORD_ACCEPTED) {
 				$this->{_loggedIn} = 1;
 			} else {
-				print("ERROR: login failed, using pw: '$password'");
+				print("ERROR: login failed, using pw: '$password'\n");
 			}
 		}
 	}
@@ -224,11 +224,11 @@ sub connect {
 			my $buf = $this->receive(14);
 			
 			if ($buf ne CONNECTION_ACCEPTED) {
-				print("WARN: Connection to '$hostname' established, but something seems to be not correct.");
+				print("WARN: Connection to '$hostname' established, but something seems to be not correct.\n");
 			}
 			
 		} else {
-			print("Address is not complete: [hostname: '$hostname', port: '$port']");
+			print("Address is not complete: [hostname: '$hostname', port: '$port']\n");
 		}
 	}
 }
