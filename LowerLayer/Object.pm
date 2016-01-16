@@ -19,7 +19,7 @@ BEGIN {
 	push(@INC, "$libBasePath/Scalar-List-Utils-1.35/lib");
 }
 
-#@TODO: is this method needed?
+#@TODO: method is used in servicecontext... remove it once the service context is not needed anymore.
 sub getRootDir {
 	my $ret = File::Spec::Functions::rel2abs(File::Basename::dirname(__FILE__)) . "/../";
 	$ret =~ s/\\/\//g;
