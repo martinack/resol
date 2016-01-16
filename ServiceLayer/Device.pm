@@ -122,6 +122,11 @@ sub listen {
 	if (!defined($this->getConnection())) {
 		$this->connect();
 	}
+
+	if (!defined($this->getConnection())) {
+		print("ERROR: Unable to connect, can not receive any data.\n");
+		return undef;
+	}
 	
 	if (!defined($this->{_loggedIn}) || $this->{_loggedIn} == 0) {
 		$this->login();
@@ -202,17 +207,19 @@ sub connect {
 	
 	if (!defined($this->{_connection})) {
 		if (defined($hostname) && defined($port)) {
-			my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime(time);
-			$mon += 1;
-			my $time = ($year + 1900) . "/" . sprintf("%02d", $mon) . "/" . sprintf("%02d", $mday) . " " . sprintf("%02d", $hour) . ":" . sprintf("%02d", $min) . ":" . sprintf("%02d", $sec);
+
 			$this->{_connection} = new IO::Socket::INET (
 				PeerHost => $hostname,
 				PeerPort => $port,
 				Proto => 'tcp'
 			);
-			die "[ERROR] [$time] - $!" unless $this->{_connection};
-			
-			#@TODO: it should not "die"
+
+			unless ($this->{_connection}) {
+				print("ERROR: $! - Connection will be reset.\n");
+
+				$this->resetConnection();
+				return undef;
+			}
 
 			my $buf = $this->receive(14);
 			
@@ -229,8 +236,10 @@ sub connect {
 sub disconnect {
 	my $this = shift;
 
-	$this->send("QUIT\n");
-	$this->{_connection}->close();
+	if (defined($this->getConnection())) {
+		$this->send("QUIT\n");
+		$this->getConnection()->close();
+	}
 	$this->resetConnection();
 }
 
@@ -239,16 +248,21 @@ sub receive {
 	my $length = shift;
 	
 	my $ret = "";
-	$this->getConnection()->recv($ret, $length);
+
+	if (defined($this->getConnection())) {
+		$this->getConnection()->recv($ret, $length);
 	
-	$ret = unpack('H*', $ret);
+		$ret = unpack('H*', $ret);
+	}
 	
 	return $ret;
 }
 
 sub send {
 	my $this = shift;
-	$this->getConnection()->send(shift);
+	if (defined($this->getConnection())) {
+		$this->getConnection()->send(shift);
+	}
 }
 
 sub unwrap {
