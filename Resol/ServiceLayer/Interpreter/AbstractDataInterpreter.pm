@@ -41,7 +41,7 @@ sub unwrapAddress {
 	my $this = shift;
 	my $address = shift;
 	
-	return substr($address, 2, 2) . substr($address, 0, 1);
+	return substr($address, 2, 2) . substr($address, 0, 2);
 }
 
 1;
